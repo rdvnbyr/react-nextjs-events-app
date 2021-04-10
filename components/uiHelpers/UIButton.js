@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Icon, Button } from "semantic-ui-react";
 
 export function UIButton({
@@ -6,11 +7,14 @@ export function UIButton({
   withIcon,
   color = "orange",
   inverted = false,
-  floated = "right",
+  floated,
   iconName,
   text,
+  link,
+  href,
+  ...props
 }) {
-  return (
+  const uiBtn = (
     <Button
       onClick={onClick}
       animated={animated}
@@ -18,18 +22,21 @@ export function UIButton({
       floated={floated}
       inverted={inverted}
       onClick={onClick}
+      {...props}
     >
       {animated && (
         <>
           <Button.Content visible>{text}</Button.Content>
           <Button.Content hidden>
             {" "}
-            <Icon name={iconName} />
+            {withIcon && <Icon name={iconName} />}
           </Button.Content>
         </>
       )}
       {!animated && text}
-      {withIcon && <Icon name={iconName} />}
+      {!animated && withIcon && <Icon name={iconName} />}
     </Button>
   );
+
+  return <>{link ? <Link href={href}>{uiBtn}</Link> : uiBtn}</>;
 }

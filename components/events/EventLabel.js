@@ -11,6 +11,7 @@ function EventLabel({ label }) {
       </div>
       <UIButton
         animated={true}
+        withIcon
         onClick={() => alert("Buy a ticket !!")}
         text="Buy a Ticket"
         iconName="shop"

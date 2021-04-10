@@ -25,14 +25,15 @@ export function EventItem({ event }) {
         </Item.Meta>
         <Item.Description>{description}</Item.Description>
         <Item.Extra>
-          <Link href={`/events/${id}`}>
-            <UIButton
-              inverted={true}
-              text="Explore Event"
-              withIcon={true}
-              iconName="right chevron"
-            />
-          </Link>
+          <UIButton
+            link
+            href={`/events/${id}`}
+            inverted={true}
+            text="Explore Event"
+            withIcon={true}
+            iconName="right chevron"
+            floated='right'
+          />
           {label.map((label, index) => (
             <Label key={index}>{label}</Label>
           ))}
