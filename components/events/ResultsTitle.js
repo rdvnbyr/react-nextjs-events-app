@@ -1,5 +1,3 @@
-import { UIButton } from "../uiHelpers";
-
 function ResultsTitle(props) {
   const { date } = props;
 
@@ -10,8 +8,7 @@ function ResultsTitle(props) {
 
   return (
     <section className="title">
-      <h1>Events in {humanReadableDate}</h1>
-      <UIButton link href="/events" text="Show all events" color="blue" />
+      <h1>Events in <b>{humanReadableDate}</b></h1>
     </section>
   );
 }

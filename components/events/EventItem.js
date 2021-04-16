@@ -3,7 +3,7 @@ import { Item, Icon, Label } from "semantic-ui-react";
 import { UIButton } from "../uiHelpers";
 
 export function EventItem({ event }) {
-  const { title, image, date, location, description, id, label } = event;
+  const { title, image, date, location, description, _id, label } = event;
   const formatDate = new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
@@ -27,7 +27,7 @@ export function EventItem({ event }) {
         <Item.Extra>
           <UIButton
             link
-            href={`/events/${id}`}
+            href={`/events/${_id}`}
             inverted={true}
             text="Explore Event"
             withIcon={true}

@@ -5,7 +5,7 @@ export function UIButton({
   animated = false,
   onClick,
   withIcon,
-  color = "orange",
+  color = 'orange',
   inverted = false,
   floated,
   iconName,

@@ -1,23 +1,19 @@
-import { useRouter } from "next/router";
 import { LoadingScreen } from "../../components/uiHelpers";
-import { getFilteredEvents } from "../../dummy-data";
-
 import EventList from "../../components/events/EventList";
 import ResultsTitle from "../../components/events/ResultsTitle";
-import ErrorAlert from "../../components/events/ErrorAlert";
-import { UIButton } from "../../components/uiHelpers";
+import { UIButton, ErrorAlert } from "../../components/uiHelpers";
+import { useFetch } from "../../hooks/fetch-hook";
 
-function FilteredEvent() {
-  const { slug } = useRouter().query;
-  if (!slug) {
+function FilteredEvent(props) {
+  const { year, month, data } = props;
+
+  if (!data) {
     return (
-      <div className="text-center">
+      <div className="mt-5 row justify-content-center">
         <LoadingScreen />
       </div>
     );
   }
-  const year = +slug[0];
-  const month = +slug[1];
 
   if (
     isNaN(year) ||
@@ -43,12 +39,9 @@ function FilteredEvent() {
     );
   }
 
-  const filteredEvents = getFilteredEvents({ year, month });
-  const date = new Date(year, month - 1);
-
   return (
     <div>
-      {!filteredEvents || filteredEvents.length === 0 ? (
+      {data.length === 0 ? (
         <div className="mt-5 text-center">
           <ErrorAlert>
             <h2>No Events Found!</h2>
@@ -57,12 +50,48 @@ function FilteredEvent() {
         </div>
       ) : (
         <div className="row justify-content-center mt-5 px-5">
-          <ResultsTitle date={date} />
-          <EventList events={filteredEvents} />
+          <ResultsTitle date={new Date(year, month - 1)} />
+          <EventList events={data} />
         </div>
       )}
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const slug = params.slug;
+  const year = +slug[0];
+  const month = +slug[1];
+
+  const { data } = await useFetch();
+  if (!data) {
+    return {
+      redirect: {
+        destination: "/no-data",
+      },
+    };
+  }
+  if (data.length === 0) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const filteredEvents = data.filter((event) => {
+    const eventDate = new Date(event.date);
+    return (
+      eventDate.getFullYear() === year && eventDate.getMonth() === month - 1
+    );
+  });
+
+  return {
+    props: {
+      year,
+      month,
+      data: filteredEvents,
+    },
+  };
 }
 
 export default FilteredEvent;

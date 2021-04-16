@@ -1,10 +1,12 @@
+import Footer from "./Footer";
 import MainHeader from "./MainHeader";
 
 function Layout({ children }) {
   return (
     <>
       <MainHeader />
-      <main>{children}</main>
+      <main className="ui-main">{children}</main>
+      <Footer/>
     </>
   );
 }

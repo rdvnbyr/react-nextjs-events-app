@@ -5,7 +5,7 @@ function EventList({ events }) {
   return (
     <Item.Group divided>
       {events.map((event) => (
-        <EventItem key={event.id} event={event} />
+        <EventItem key={event._id} event={event} />
       ))}
     </Item.Group>
   );
